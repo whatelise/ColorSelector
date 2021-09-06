@@ -7,6 +7,8 @@ function displayColorBox() {
   console.log(hexCode);
   const boxDisplay = document.getElementById("colorbox");
   boxDisplay.style.backgroundColor = `${hexCode}`;
+  const info = document.querySelector("#infowrapper");
+  info.style.color = `${hexCode}`;
   showHexCode(hexCode);
 }
 
@@ -85,5 +87,5 @@ function findHSL(r, g, b) {
 
 function showHSL(h, s, l) {
   const hslDiv = document.getElementById("hslDiv");
-  hslDiv.textContent = `H: ${h} S:${s} L:${l}`;
+  hslDiv.textContent = `H: ${h} S: ${s} L: ${l}`;
 }
