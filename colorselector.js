@@ -24,18 +24,23 @@ function findRGB(rgbInfo) {
   let blue = rgbInfo.substring(5, 7);
   console.log(red, green, blue);
 
-  roughScale();
+  // roughScale();
 
-  function roughScale(x, base) {
-    const parsed = parseInt(x, base);
-    if (isNaN(parsed)) {
-      return 0;
-    }
-    return parsed;
-  }
-  const r = roughScale(`0x${red}`, 16);
-  const g = roughScale(`0x${green}`, 16);
-  const b = roughScale(`0x${blue}`, 16);
+  // function roughScale(x, base) {
+  //   const parsed = parseInt(x, base);
+  //   if (isNaN(parsed)) {
+  //     return 0;
+  //   }
+  //   return parsed;
+  // }
+  // const r = roughScale(`0x${red}`, 16);
+  // const g = roughScale(`0x${green}`, 16);
+  // const b = roughScale(`0x${blue}`, 16);
+
+  let r = parseInt(`0x${red}`, 16);
+  let g = parseInt(`0x${green}`, 16);
+  let b = parseInt(`0x${blue}`, 16);
+
   console.log(r, g, b);
   showRGB(r, g, b);
 }
@@ -82,7 +87,7 @@ function findHSL(r, g, b) {
   l *= 100;
 
   console.log("hsl(%f,%f%,%f%)", h, s, l);
-  showHSL(h, s, l);
+  showHSL(Math.round(h), Math.round(s), Math.round(l));
 }
 
 function showHSL(h, s, l) {
