@@ -3,58 +3,65 @@ selectColor();
 
 function selectColor() {
   const colorWheel = document.querySelector("#colorwheel");
-  colorWheel.addEventListener("input", displayColorBox);
+  colorWheel.addEventListener("input", showColor);
 }
-function displayColorBox() {
-  let hexCode = this.value;
+
+function showColor() {
+  const hexCode = this.value;
   console.log(hexCode);
   const boxDisplay = document.getElementById("colorbox");
   boxDisplay.style.backgroundColor = `${hexCode}`;
   const info = document.querySelector("#infowrapper");
   info.style.color = `${hexCode}`;
+
   showHexCode(hexCode);
+  const RGB = findRGB(hexCode);
+  const rgbdisplay = showRGB(RGB);
+  const hsl = findHSL(RGB);
+  const hsldisplay = showHSL(Math.round(hsl.h), Math.round(hsl.s), Math.round(hsl.l));
+  rgbToHex(RGB);
 }
 
 function showHexCode(hexname) {
   const hexDiv = document.getElementById("hexDiv");
   hexDiv.textContent = `HEX: ${hexname}`;
-  findRGB(hexname);
 }
 
-function findRGB(rgbInfo) {
-  let red = rgbInfo.substring(1, 3);
-  let green = rgbInfo.substring(3, 5);
-  let blue = rgbInfo.substring(5, 7);
+function findRGB(rgb) {
+  let red = rgb.substring(1, 3);
+  let green = rgb.substring(3, 5);
+  let blue = rgb.substring(5, 7);
   console.log(red, green, blue);
-
-  // roughScale();
-
-  // function roughScale(x, base) {
-  //   const parsed = parseInt(x, base);
-  //   if (isNaN(parsed)) {
-  //     return 0;
-  //   }
-  //   return parsed;
-  // }
-  // const r = roughScale(`0x${red}`, 16);
-  // const g = roughScale(`0x${green}`, 16);
-  // const b = roughScale(`0x${blue}`, 16);
 
   let r = parseInt(`0x${red}`, 16);
   let g = parseInt(`0x${green}`, 16);
   let b = parseInt(`0x${blue}`, 16);
 
   console.log(r, g, b);
-  showRGB(r, g, b);
+  return { r, g, b };
 }
 
-function showRGB(r, g, b) {
+function showRGB(object) {
   const rgbDiv = document.getElementById("rgbDiv");
-  rgbDiv.textContent = `R: ${r} G:${g} B:${b}`;
-  findHSL(r, g, b);
+  rgbDiv.textContent = `rgb(${object.r}, ${object.g}, ${object.b})`;
+  const rgbString = rgbDiv.textContent;
+  return rgbString;
 }
-
-function findHSL(r, g, b) {
+function rgbToHex(rgbObject) {
+  console.log(rgbObject);
+  const redhex = Number(rgbObject.r).toString(16);
+  const greenhex = Number(rgbObject.g).toString(16);
+  const bluehex = Number(rgbObject.b).toString(16);
+  const hex = `#${redhex}${greenhex}${bluehex}`;
+  if (hex.length < 2) {
+    hex = "0" + hex;
+  }
+  return hex;
+}
+function findHSL(object) {
+  let r = object.r;
+  let g = object.g;
+  let b = object.b;
   r /= 255;
   g /= 255;
   b /= 255;
@@ -90,7 +97,8 @@ function findHSL(r, g, b) {
   l *= 100;
 
   console.log("hsl(%f,%f%,%f%)", h, s, l);
-  showHSL(Math.round(h), Math.round(s), Math.round(l));
+
+  return { h, s, l };
 }
 
 function showHSL(h, s, l) {
